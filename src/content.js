@@ -8,6 +8,7 @@ function createOverlay() {
   div.id = overlayId;
   div.innerHTML = `
     <div class="tagh-card">
+      <button id="tagh-close" class="tagh-close-button" aria-label="閉じる">&times;</button>
       <div class="tagh-row">
         <strong>Tag Hints</strong>
       </div>
@@ -17,8 +18,28 @@ function createOverlay() {
       <div id="tagh-results" class="tagh-row" aria-live="polite"></div>
     </div>`;
   document.body.appendChild(div);
+
+  // モーダルを閉じる関数
+  const closeModal = () => {
+    const overlay = document.getElementById(overlayId);
+    if (overlay) {
+      overlay.remove();
+    }
+  };
+
+  // 閉じるボタンにイベントリスナーを追加
+  document.getElementById("tagh-close").addEventListener("click", closeModal);
+
+  // タグ提案ボタンにイベントリスナーを追加
   document.getElementById("tagh-suggest").addEventListener("click", () => {
     chrome.runtime.sendMessage({ type: "SUGGEST_TAGS", text: latestText });
+  });
+
+  // オーバーレイ（背景）クリックで閉じるイベントリスナーを追加
+  div.addEventListener("click", (e) => {
+    if (e.target.id === overlayId) {
+      closeModal();
+    }
   });
 }
 
