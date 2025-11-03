@@ -1,0 +1,6 @@
+#tag-hints-overlay{position:fixed;right:16px;bottom:16px;z-index:2147483647}
+.tagh-card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:12px;box-shadow:0 4px 24px rgba(0,0,0,.1);font:14px system-ui;min-width:220px}
+.tagh-row{margin-top:6px}
+#tagh-results{word-break:break-word}
+button#tagh-suggest{padding:6px 10px;border-radius:8px;border:1px solid #ccc;background:#f7f7f7;cursor:pointer}
+button#tagh-suggest:hover{background:#eee}
