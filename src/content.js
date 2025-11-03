@@ -3,8 +3,7 @@
 let latestText = "";
 const overlayId = "tag-hints-overlay";
 
-function ensureOverlay() {
-  if (document.getElementById(overlayId)) return;
+function createOverlay() {
   const div = document.createElement("div");
   div.id = overlayId;
   div.innerHTML = `
@@ -40,11 +39,16 @@ function extractEditorText() {
 
 const observer = new MutationObserver(() => {
   latestText = extractEditorText();
-  ensureOverlay();
 });
 observer.observe(document.documentElement, { subtree: true, childList: true });
 
 chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === "SHOW_MODAL") {
+    // モーダルが存在しない場合のみ作成
+    if (!document.getElementById(overlayId)) {
+      createOverlay();
+    }
+  }
   if (msg.type === "TAG_RESULTS") {
     const box = document.getElementById("tagh-results");
     if (!box) return;
